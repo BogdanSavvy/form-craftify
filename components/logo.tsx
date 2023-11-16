@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-function Logo() {
+const Logo = () => {
 	return (
 		<Link
 			href="/"
@@ -9,6 +9,6 @@ function Logo() {
 			FormCraftify
 		</Link>
 	);
-}
+};
 
 export default Logo;

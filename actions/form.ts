@@ -3,13 +3,13 @@
 import { currentUser } from '@clerk/nextjs';
 
 import prisma from '@/lib/prisma';
-
+import { formSchema, formShemaType } from '@/schemas/form-schemas';
 
 export async function GetFormStats() {
 	const user = await currentUser();
 
 	if (!user) {
-		throw new Error("Unauthorized");
+		throw new Error('Unauthorized');
 	}
 
 	const stats = await prisma.form.aggregate({
@@ -39,4 +39,48 @@ export async function GetFormStats() {
 		submissionRate,
 		bounceRate,
 	};
+}
+
+export async function CreateForm(data: formShemaType) {
+	const validation = formSchema.safeParse(data);
+
+	if (!validation.success) {
+		throw new Error('Form is not valid!');
+	}
+
+	const user = await currentUser();
+	if (!user) {
+		throw new Error('Unauthorized');
+	}
+
+	const newForm = await prisma.form.create({
+		data: {
+			userId: user.id,
+			name: data.name,
+			description: data.description,
+		},
+	});
+
+	if (!newForm) {
+		throw new Error('Something went wrong, can`t create a new form');
+	}
+
+	return newForm.id;
+}
+
+export async function GetForms() {
+	const user = await currentUser();
+
+	if (!user) {
+		throw new Error('Unauthorized');
+	}
+
+	return await prisma.form.findMany({
+		where: {
+			userId: user.id,
+		},
+		orderBy: {
+			createdAt: 'desc',
+		},
+	});
 }

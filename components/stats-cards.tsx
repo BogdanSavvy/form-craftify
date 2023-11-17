@@ -85,7 +85,7 @@ const StatsCard: React.FC<StatsCardProps> = ({
 					) : (
 						value
 					)}
-					<p className="text-xs text-muted-foreground pt-1{">{helperText}</p>
+					<p className="text-xs text-muted-foreground pt-2">{helperText}</p>
 				</div>
 			</CardContent>
 		</Card>

@@ -4,8 +4,8 @@ import { HiCursorClick } from 'react-icons/hi';
 import { TbArrowBounce } from 'react-icons/tb';
 
 import { GetFormStats } from '@/actions/form';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Skeleton } from './ui/skeleton';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface StatsCardsProps {
 	data?: Awaited<ReturnType<typeof GetFormStats>>;

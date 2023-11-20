@@ -84,3 +84,18 @@ export async function GetForms() {
 		},
 	});
 }
+
+export async function GetFormById(formId: number) {
+	const user = await currentUser();
+
+	if (!user) {
+		throw new Error('Unauthorized');
+	}
+
+	return await prisma.form.findUnique({
+		where: {
+			userId: user.id,
+			id: formId,
+		},
+	});
+}

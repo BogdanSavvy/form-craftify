@@ -3,15 +3,37 @@
 import { MdPreview } from 'react-icons/md';
 import { HiSaveAs } from 'react-icons/hi';
 import { MdOutlinePublic } from 'react-icons/md';
-import { DndContext } from '@dnd-kit/core';
-
+import {
+	DndContext,
+	MouseSensor,
+	TouchSensor,
+	useSensor,
+	useSensors,
+} from '@dnd-kit/core';
 import { Form } from '@prisma/client';
+
 import { ActionButton } from '@/components/action-button';
 import { Designer } from '@/components/designer';
+import DragOverlayProvider from '@/providers/drag-overlay-provider';
 
 export const FormBuilder = ({ form }: { form: Form }) => {
+	const mouseSensor = useSensor(MouseSensor, {
+		activationConstraint: {
+			distance: 10,
+		},
+	});
+
+	const touchSensor = useSensor(TouchSensor, {
+		activationConstraint: {
+			delay: 300,
+			tolerance: 5,
+		},
+	});
+
+	const sensors = useSensors(mouseSensor, touchSensor);
+
 	return (
-		<DndContext>
+		<DndContext sensors={sensors}>
 			<main className="w-full flex flex-col">
 				<nav className="flex items-center justify-between gap-3 border-b-2 p-4">
 					<h2 className="truncate font-medium">
@@ -44,6 +66,7 @@ export const FormBuilder = ({ form }: { form: Form }) => {
 					<Designer />
 				</div>
 			</main>
+			<DragOverlayProvider />
 		</DndContext>
 	);
 };

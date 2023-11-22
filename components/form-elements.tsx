@@ -14,7 +14,9 @@ export type FormElementType = {
 		elementInstance: FormElementsInstance;
 	}>;
 	formComponent: React.FC;
-	propertiesComponent: React.FC;
+	propertiesComponent: React.FC<{
+		elementInstance: FormElementsInstance;
+	}>;
 
 	designerButton: {
 		label: string;

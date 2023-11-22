@@ -32,7 +32,7 @@ export const DesignerElementWrapper = ({
 		},
 	});
 
-	const { removeElement } = useDesigner();
+	const { removeElement, selectedElement, setSelectedElement } = useDesigner();
 
 	const draggable = useDraggable({
 		id: element.id + '-drag-handler',
@@ -48,7 +48,7 @@ export const DesignerElementWrapper = ({
 	if (draggable.isDragging) {
 		return null;
 	}
-
+	
 	return (
 		<div
 			ref={draggable.setNodeRef}
@@ -59,6 +59,10 @@ export const DesignerElementWrapper = ({
 			}}
 			onMouseLeave={() => {
 				setIsMouseOver(false);
+			}}
+			onClick={event => {
+				event.stopPropagation();
+				setSelectedElement(element);
 			}}
 			className="relative h-[120px] flex flex-col text-foreground rounded-md ring-1 ring-accent ring-inset hover:cursor-pointer "
 		>
@@ -75,7 +79,8 @@ export const DesignerElementWrapper = ({
 					<div className="absolute h-full right-0 z-10">
 						<Button
 							variant="destructive"
-							onClick={() => {
+							onClick={event => {
+								event.stopPropagation();
 								removeElement(element.id);
 							}}
 							className="h-full border rounded-md rounded-l-none bg-red-500"

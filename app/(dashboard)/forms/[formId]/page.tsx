@@ -7,6 +7,7 @@ import { GetFormById } from '@/actions/form';
 import { LinkShare } from '@/components/link-share';
 import { StatsCard } from '@/components/stats-cards';
 import { VisitButton } from '@/components/visit-button';
+import { SubmissionsTable } from '@/components/submission-table';
 
 export default async function FormDetailsPage({
 	params,
@@ -83,10 +84,4 @@ export default async function FormDetailsPage({
 	);
 }
 
-function SubmissionsTable({ formId }: { formId: number }) {
-	return (
-		<>
-			<h2 className="text-2xl font-bold my-4">Submissions</h2>
-		</>
-	);
-}
+

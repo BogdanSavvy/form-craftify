@@ -99,3 +99,39 @@ export async function GetFormById(formId: number) {
 		},
 	});
 }
+
+export async function UpdateFormContent(formId: number, json: string) {
+	const user = await currentUser();
+
+	if (!user) {
+		throw new Error('Unauthorized');
+	}
+
+	return await prisma.form.update({
+		where: {
+			userId: user.id,
+			id: formId,
+		},
+		data: {
+			content: json,
+		},
+	});
+}
+
+export async function PublishForm(formId: number) {
+	const user = await currentUser();
+
+	if (!user) {
+		throw new Error('Unauthorized');
+	}
+
+	return await prisma.form.update({
+		where: {
+			userId: user.id,
+			id: formId,
+		},
+		data: {
+			published: true,
+		},
+	});
+}

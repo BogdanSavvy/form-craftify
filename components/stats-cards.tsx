@@ -25,7 +25,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ data, loading }) => {
 			/>
 			<StatsCard
 				title="Total submissions"
-				value={data?.visits.toLocaleString() || ''}
+				value={data?.submissions.toLocaleString() || ''}
 				helperText="All time for visits"
 				icon={<FaWpforms className="text-fuchsia-600" />}
 				loading={loading}
@@ -33,7 +33,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ data, loading }) => {
 			/>
 			<StatsCard
 				title="Submissions rate"
-				value={data?.visits.toLocaleString() + '%' || ''}
+				value={data?.submissionRate.toLocaleString() + '%' || ''}
 				helperText="Visits that result in form submission"
 				icon={<HiCursorClick className="text-green-600" />}
 				loading={loading}
@@ -41,7 +41,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ data, loading }) => {
 			/>
 			<StatsCard
 				title="Bounce rate"
-				value={data?.visits.toLocaleString() + '%' || ''}
+				value={data?.bounceRate.toLocaleString() + '%' || ''}
 				helperText="Visits that leaves without interacting"
 				icon={<TbArrowBounce className="text-red-600" />}
 				loading={loading}
@@ -60,7 +60,7 @@ interface StatsCardProps {
 	className: string;
 }
 
-const StatsCard: React.FC<StatsCardProps> = ({
+export const StatsCard: React.FC<StatsCardProps> = ({
 	title,
 	value,
 	helperText,

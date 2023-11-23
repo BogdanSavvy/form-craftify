@@ -135,3 +135,38 @@ export async function PublishForm(formId: number) {
 		},
 	});
 }
+
+export async function GetFormContentByUrl(formUrl: string) {
+	return await prisma.form.update({
+		select: {
+			content: true,
+		},
+		where: {
+			shareURL: formUrl,
+		},
+		data: {
+			visits: {
+				increment: 1,
+			},
+		},
+	});
+}
+
+export async function SubmitForm(formUrl: string, content: string) {
+	return await prisma.form.update({
+		where: {
+			shareURL: formUrl,
+			published: true,
+		},
+		data: {
+			submissions: {
+				increment: 1,
+			},
+			formSubmissions: {
+				create: {
+					content,
+				},
+			},
+		},
+	});
+}

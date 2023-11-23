@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { MdTextFields } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -10,6 +10,7 @@ import {
 	ElementsType,
 	FormElementType,
 	FormElementsInstance,
+	SubmitFunction,
 } from '@/components/form-elements';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
@@ -24,6 +25,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
+import { cn } from '@/lib/utils';
 
 const type: ElementsType = 'TextField';
 
@@ -44,11 +46,23 @@ export const TextFieldElement: FormElementType = {
 		label: 'Text field',
 		icon: MdTextFields,
 	},
+
 	construct: (id: string) => ({
 		id,
 		type,
 		extraAttributes,
 	}),
+	validate: (
+		formElement: FormElementsInstance,
+		currentValue: string,
+	): boolean => {
+		const element = formElement as CustomInstance;
+		if (element.extraAttributes.required) {
+			return currentValue.length > 0;
+		}
+
+		return true;
+	},
 };
 
 type CustomInstance = FormElementsInstance & {
@@ -227,22 +241,63 @@ function PropertiesComponent({
 
 function FormComponent({
 	elementInstance,
+	submitValue,
+	isInvalid,
+	defaultValue,
 }: {
 	elementInstance: FormElementsInstance;
+	submitValue?: SubmitFunction;
+	isInvalid?: boolean;
+	defaultValue?: string;
 }) {
 	const element = elementInstance as CustomInstance;
+
+	const [value, setValue] = useState(defaultValue || '');
+	const [error, setErorr] = useState(false);
+
+	useEffect(() => {
+		setErorr(isInvalid === true);
+	}, [isInvalid]);
 
 	const { label, description, required, placeholder } = element.extraAttributes;
 
 	return (
 		<div className="w-full flex flex-col gap-2">
-			<Label>
+			<Label className={cn(error && 'text-red-500')}>
 				{label}
 				{required && '*'}
 			</Label>
-			<Input placeholder={placeholder} />
+			<Input
+				placeholder={placeholder}
+				onChange={event => {
+					setValue(event.target.value);
+				}}
+				onBlur={event => {
+					if (!submitValue) {
+						return;
+					}
+
+					const valid = TextFieldElement.validate(element, event.target.value);
+					setErorr(!valid);
+
+					if (!valid) {
+						return;
+					}
+
+					submitValue(element.id, event.target.value);
+				}}
+				value={value}
+				className={cn(error && 'border-red-500')}
+			/>
 			{description && (
-				<p className="text-muted-foreground text-[0.8rem]">{description}</p>
+				<p
+					className={cn(
+						'text-muted-foreground text-[0.8rem]',
+						error && 'text-red-500',
+					)}
+				>
+					{description}
+				</p>
 			)}
 		</div>
 	);

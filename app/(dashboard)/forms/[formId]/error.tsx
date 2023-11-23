@@ -17,7 +17,7 @@ export default function Error({ error }: { error: Error }) {
 				Something went wrong
 				<BiError className="w-10 h-10" />
 			</h2>
-			<Button asChild className="gap-2">
+			<Button variant="secondary" asChild className="gap-2">
 				<Link href="/">
 					Back to home <TiArrowBackOutline className="w-4 h-4" />
 				</Link>

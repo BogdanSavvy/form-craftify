@@ -1,6 +1,5 @@
 'use client';
 
-import { MdPreview } from 'react-icons/md';
 import { HiSaveAs } from 'react-icons/hi';
 import { MdOutlinePublic } from 'react-icons/md';
 import {
@@ -14,6 +13,7 @@ import { Form } from '@prisma/client';
 
 import { ActionButton } from '@/components/action-button';
 import { Designer } from '@/components/designer';
+import { PreviewButton } from '@/components/preview-button';
 import DragOverlayProvider from '@/providers/drag-overlay-provider';
 
 export const FormBuilder = ({ form }: { form: Form }) => {
@@ -41,11 +41,7 @@ export const FormBuilder = ({ form }: { form: Form }) => {
 						{form.name}
 					</h2>
 					<div className="flex items-center gap-2">
-						<ActionButton
-							tag="Preview"
-							icon={<MdPreview className="w-6 h-6" />}
-							className="gap-2"
-						/>
+						<PreviewButton />
 						{!form.published && (
 							<>
 								<ActionButton

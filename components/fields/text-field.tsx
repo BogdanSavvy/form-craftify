@@ -37,8 +37,8 @@ const extraAttributes = {
 export const TextFieldElement: FormElementType = {
 	type,
 	designerComponent: DesignerComponent,
-	formComponent: () => <div>Form Compponent</div>,
 	propertiesComponent: PropertiesComponent,
+	formComponent: FormComponent,
 
 	designerButton: {
 		label: 'Text field',
@@ -222,5 +222,28 @@ function PropertiesComponent({
 				/>
 			</form>
 		</Form>
+	);
+}
+
+function FormComponent({
+	elementInstance,
+}: {
+	elementInstance: FormElementsInstance;
+}) {
+	const element = elementInstance as CustomInstance;
+
+	const { label, description, required, placeholder } = element.extraAttributes;
+
+	return (
+		<div className="w-full flex flex-col gap-2">
+			<Label>
+				{label}
+				{required && '*'}
+			</Label>
+			<Input placeholder={placeholder} />
+			{description && (
+				<p className="text-muted-foreground text-[0.8rem]">{description}</p>
+			)}
+		</div>
 	);
 }

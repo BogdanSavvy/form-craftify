@@ -25,7 +25,7 @@ import { toast } from '@/components/ui/use-toast';
 import DragOverlayProvider from '@/providers/drag-overlay-provider';
 
 export const FormBuilder = ({ form }: { form: Form }) => {
-	const { setElements } = useDesigner();
+	const { setElements, setSelectedElement } = useDesigner();
 	const [isReady, setIsReady] = useState(false);
 
 	const mouseSensor = useSensor(MouseSensor, {
@@ -49,11 +49,12 @@ export const FormBuilder = ({ form }: { form: Form }) => {
 
 		const elements = JSON.parse(form.content);
 
+		setSelectedElement(null);
 		setElements(elements);
 		const readyTimeout = setTimeout(() => setIsReady(true), 500);
 
 		return () => clearTimeout(readyTimeout);
-	}, [form, setElements]);
+	}, [form, setElements, setSelectedElement]);
 
 	if (!isReady) {
 		return (

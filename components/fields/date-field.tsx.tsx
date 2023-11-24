@@ -26,34 +26,38 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
+import { BsFillCalendarDateFill, BsFillCalendarDayFill } from 'react-icons/bs';
+import { Button } from '../ui/button';
+import { CalendarIcon } from '@radix-ui/react-icons';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { format } from 'date-fns';
+import { Calendar } from '../ui/calendar';
 
-const type: ElementsType = 'TextField';
+const type: ElementsType = 'DateField';
 
 const extraAttributes = {
-	label: 'Text Field',
-	description: 'Description',
+	label: 'Date Field',
+	description: 'Pick a date',
 	required: false,
-	placeholder: 'Type here ...',
 };
 
 const propertiesSchema = z.object({
 	label: z.string().min(2).max(50),
 	description: z.string().max(200),
 	required: z.boolean().default(false),
-	placeholder: z.string().max(50),
 });
 
 type propertiesFormShemaType = z.infer<typeof propertiesSchema>;
 
-export const TextFieldElement: FormElementType = {
+export const DateFieldElement: FormElementType = {
 	type,
 	designerComponent: DesignerComponent,
 	propertiesComponent: PropertiesComponent,
 	formComponent: FormComponent,
 
 	designerButton: {
-		label: 'Text field',
-		icon: MdTextFields,
+		label: 'Date field',
+		icon: BsFillCalendarDateFill,
 	},
 
 	construct: (id: string) => ({
@@ -93,7 +97,13 @@ function DesignerComponent({
 				{label}
 				{required && '*'}
 			</Label>
-			<Input readOnly disabled placeholder={placeholder} />
+			<Button
+				variant="outline"
+				className="w-full justify-start text-left font-normal "
+			>
+				<CalendarIcon className="mr-2 h-4 w-4" />
+				<span>Pick a date</span>
+			</Button>
 			{description && (
 				<p className="text-muted-foreground text-[0.8rem]">{description}</p>
 			)}
@@ -117,7 +127,6 @@ function PropertiesComponent({
 			label: element.extraAttributes.label,
 			description: element.extraAttributes.description,
 			required: element.extraAttributes.required,
-			placeholder: element.extraAttributes.placeholder,
 		},
 	});
 
@@ -163,27 +172,6 @@ function PropertiesComponent({
 								The label of the field <br />
 								it will be displayed above the field.
 							</FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name="placeholder"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Placeholder</FormLabel>
-							<FormControl>
-								<Input
-									{...field}
-									onKeyDown={event => {
-										if (event.key === 'Enter') {
-											event.currentTarget.blur();
-										}
-									}}
-								/>
-							</FormControl>
-							<FormDescription>The placeholder of the field.</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -252,7 +240,9 @@ function FormComponent({
 }) {
 	const element = elementInstance as CustomInstance;
 
-	const [value, setValue] = useState(defaultValue || '');
+	const [date, setDate] = useState<Date | undefined>(
+		defaultValue ? new Date(defaultValue) : undefined,
+	);
 	const [error, setErorr] = useState(false);
 
 	useEffect(() => {
@@ -267,28 +257,39 @@ function FormComponent({
 				{label}
 				{required && '*'}
 			</Label>
-			<Input
-				placeholder={placeholder}
-				onChange={event => {
-					setValue(event.target.value);
-				}}
-				onBlur={event => {
-					if (!submitValue) {
-						return;
-					}
+			<Popover>
+				<PopoverTrigger asChild>
+					<Button
+						variant="outline"
+						className={cn(
+							'w-full justify-start text-left font-normal',
+							!date && 'text-muted-foreground',
+							error && 'border-red-500',
+						)}
+					>
+						<CalendarIcon className="mr-2 h-4 w-4" />
+						{date ? format(date, 'ppp') : <span>Pick a date</span>}
+					</Button>
+				</PopoverTrigger>
+				<PopoverContent className="w-auto p-0" align="start">
+					<Calendar
+						mode="single"
+						initialFocus
+						selected={date}
+						onSelect={date => {
+							setDate(date);
+							if (!submitValue) {
+								return;
+							}
+							const value = date?.toUTCString() || '';
 
-					const valid = TextFieldElement.validate(element, event.target.value);
-					setErorr(!valid);
-
-					if (!valid) {
-						return;
-					}
-
-					submitValue(element.id, event.target.value);
-				}}
-				value={value}
-				className={cn(error && 'border-red-500')}
-			/>
+							const valid = DateFieldElement.validate(element, value);
+							setErorr(!valid);
+							submitValue(element.id, value);
+						}}
+					/>
+				</PopoverContent>
+			</Popover>
 			{description && (
 				<p
 					className={cn(

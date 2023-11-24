@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { MdTextFields } from 'react-icons/md';
+import { Bs123 } from 'react-icons/bs';
 
 import { useDesigner } from '@/hooks/useDesigner';
 import { cn } from '@/lib/utils';
@@ -27,13 +27,13 @@ import {
 	FormMessage,
 } from '@/components/ui/form';
 
-const type: ElementsType = 'TextField';
+const type: ElementsType = 'NumberField';
 
 const extraAttributes = {
-	label: 'Text Field',
+	label: 'Number Field',
 	description: 'Description',
 	required: false,
-	placeholder: 'Type here ...',
+	placeholder: '0',
 };
 
 const propertiesSchema = z.object({
@@ -45,15 +45,15 @@ const propertiesSchema = z.object({
 
 type propertiesFormShemaType = z.infer<typeof propertiesSchema>;
 
-export const TextFieldElement: FormElementType = {
+export const NumberFieldElement: FormElementType = {
 	type,
 	designerComponent: DesignerComponent,
 	propertiesComponent: PropertiesComponent,
 	formComponent: FormComponent,
 
 	designerButton: {
-		label: 'Text field',
-		icon: MdTextFields,
+		label: 'Number field',
+		icon: Bs123,
 	},
 
 	construct: (id: string) => ({
@@ -93,7 +93,7 @@ function DesignerComponent({
 				{label}
 				{required && '*'}
 			</Label>
-			<Input readOnly disabled placeholder={placeholder} />
+			<Input readOnly disabled type="number" placeholder={placeholder} />
 			{description && (
 				<p className="text-muted-foreground text-[0.8rem]">{description}</p>
 			)}
@@ -268,6 +268,7 @@ function FormComponent({
 				{required && '*'}
 			</Label>
 			<Input
+				type="number"
 				placeholder={placeholder}
 				onChange={event => {
 					setValue(event.target.value);
@@ -277,7 +278,10 @@ function FormComponent({
 						return;
 					}
 
-					const valid = TextFieldElement.validate(element, event.target.value);
+					const valid = NumberFieldElement.validate(
+						element,
+						event.target.value,
+					);
 					setErorr(!valid);
 
 					if (!valid) {

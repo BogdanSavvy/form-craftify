@@ -20,6 +20,11 @@ export const ElementsSidebar = () => {
 					Form Elements
 				</p>
 				<SidebarButton formElement={FormElements.TextField} />
+				<SidebarButton formElement={FormElements.NumberField} />
+				<SidebarButton formElement={FormElements.TextAreaField} />
+				<SidebarButton formElement={FormElements.DateField} />
+				<SidebarButton formElement={FormElements.SelectField} />
+				<SidebarButton formElement={FormElements.CheckBoxField} />
 			</div>
 		</div>
 	);

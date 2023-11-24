@@ -4,6 +4,11 @@ import { SubTitleFieldElement } from '@/components/fields/subtitle-field';
 import { ParagraphFieldElement } from '@/components/fields/paragraph-field';
 import { SeparatorFieldElement } from '@/components/fields/separator-field';
 import { SpacerFieldElement } from '@/components/fields/spacer-field';
+import { NumberFieldElement } from './fields/number-field';
+import { TextAreaElement } from './fields/textarea-field';
+import { DateFieldElement } from './fields/date-field.tsx';
+import { SelectFieldElement } from './fields/select-field';
+import { CheckBoxFieldElement } from './fields/checkbox-field';
 
 export type ElementsType =
 	| 'TextField'
@@ -11,7 +16,12 @@ export type ElementsType =
 	| 'SubTitleField'
 	| 'ParagraphField'
 	| 'SeparatorField'
-	| 'SpacerField';
+	| 'SpacerField'
+	| 'NumberField'
+	| 'TextAreaField'
+	| 'DateField'
+	| 'SelectField'
+	| 'CheckBoxField'
 
 export type SubmitFunction = (key: string, value: string) => void;
 
@@ -59,4 +69,9 @@ export const FormElements: FormElementsType = {
 	ParagraphField: ParagraphFieldElement,
 	SeparatorField: SeparatorFieldElement,
 	SpacerField: SpacerFieldElement,
+	NumberField: NumberFieldElement,
+	TextAreaField: TextAreaElement,
+	DateField: DateFieldElement,
+	SelectField: SelectFieldElement,
+	CheckBoxField: CheckBoxFieldElement
 };

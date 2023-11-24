@@ -1,21 +1,22 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { MdTextFields } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { MdTextFields } from 'react-icons/md';
 
+import { useDesigner } from '@/hooks/useDesigner';
+import { cn } from '@/lib/utils';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import {
 	ElementsType,
 	FormElementType,
 	FormElementsInstance,
 	SubmitFunction,
 } from '@/components/form-elements';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { useDesigner } from '@/hooks/useDesigner';
 import {
 	Form,
 	FormControl,
@@ -25,7 +26,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
-import { cn } from '@/lib/utils';
 
 const type: ElementsType = 'TextField';
 
@@ -35,6 +35,15 @@ const extraAttributes = {
 	required: false,
 	placeholder: 'Value ...',
 };
+
+const propertiesSchema = z.object({
+	label: z.string().min(2).max(50),
+	description: z.string().max(200),
+	required: z.boolean().default(false),
+	placeholder: z.string().max(50),
+});
+
+type propertiesFormShemaType = z.infer<typeof propertiesSchema>;
 
 export const TextFieldElement: FormElementType = {
 	type,
@@ -91,15 +100,6 @@ function DesignerComponent({
 		</div>
 	);
 }
-
-const propertiesSchema = z.object({
-	label: z.string().min(2).max(50),
-	description: z.string().max(200),
-	required: z.boolean().default(false),
-	placeholder: z.string().max(50),
-});
-
-type propertiesFormShemaType = z.infer<typeof propertiesSchema>;
 
 function PropertiesComponent({
 	elementInstance,

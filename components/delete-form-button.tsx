@@ -1,9 +1,11 @@
-import { useTransition } from 'react';
+'use client';
+
+import { useState, useEffect, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { MdOutlinePublic } from 'react-icons/md';
+import { BiSolidTrash } from 'react-icons/bi';
 import { FaSpinner } from 'react-icons/fa';
 
-import { PublishForm } from '@/actions/form';
+import { DeleteFormById } from '@/actions/form';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import {
@@ -18,48 +20,51 @@ import {
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-export const PublishButton = ({ formId }: { formId: number }) => {
+export const DeleFormButton = ({ formId }: { formId: number }) => {
+	const [isMounted, setIsMounted] = useState(false);
 	const [loading, startTransition] = useTransition();
 	const router = useRouter();
 
-	const publishForm = async () => {
-		try {
-			await PublishForm(formId);
+	useEffect(() => {
+		setIsMounted(true);
+	}, []);
 
+	if (!isMounted) {
+		return null;
+	}
+
+	const deleteForm = async () => {
+		try {
+			await DeleteFormById(formId);
 			toast({
 				title: 'Success',
-				description: 'Form is available to the public',
+				description: 'Form deleted successfully',
 			});
-
-			router.refresh();
 		} catch (error) {
 			toast({
 				title: 'Error',
 				description: 'Something went wrong',
 				variant: 'destructive',
 			});
+		} finally {
+			router.push('/');
 		}
 	};
 
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger>
-				<Button className="gap-2 text-white bg-gradient-to-r from-indigo-400 to-cyan-400">
-					<MdOutlinePublic className="w-4 h-4" />
-					Publish
+				<Button variant="destructive">
+					<BiSolidTrash className="w-6 h-6" />
 				</Button>
 			</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 					<AlertDialogDescription>
-						This action can not be undone! After publishing you will not be able
-						to edit this form. <br />
-						<br />
-						<span className="font-medium">
-							By publishing this form you will make it available to the public
-							and you will be able to collect submissins
-						</span>
+						This action can not be undone! After deleting the form, you will
+						lose access to it, all data about the completion of this form and
+						also statistics.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
@@ -68,7 +73,7 @@ export const PublishButton = ({ formId }: { formId: number }) => {
 						disabled={loading}
 						onClick={event => {
 							event.preventDefault();
-							startTransition(publishForm);
+							startTransition(deleteForm);
 						}}
 					>
 						Proceed

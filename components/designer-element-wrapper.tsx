@@ -4,7 +4,7 @@ import { BiSolidTrash } from 'react-icons/bi';
 
 import { useDesigner } from '@/hooks/useDesigner';
 import { cn } from '@/lib/utils';
-import { FormElements, FormElementsInstance } from './form-elements';
+import { FormElements, FormElementsInstance } from '@/components/form-elements';
 import { Button } from '@/components/ui/button';
 
 export const DesignerElementWrapper = ({
@@ -32,7 +32,7 @@ export const DesignerElementWrapper = ({
 		},
 	});
 
-	const { removeElement, selectedElement, setSelectedElement } = useDesigner();
+	const { removeElement, setSelectedElement } = useDesigner();
 
 	const draggable = useDraggable({
 		id: element.id + '-drag-handler',
@@ -48,7 +48,7 @@ export const DesignerElementWrapper = ({
 	if (draggable.isDragging) {
 		return null;
 	}
-	
+
 	return (
 		<div
 			ref={draggable.setNodeRef}

@@ -17,7 +17,7 @@ export const SaveButton = ({ formId }: { formId: number }) => {
 			await UpdateFormContent(formId, jsonElements);
 			toast({
 				title: 'Success',
-				description: 'Your form hase been sabed',
+				description: 'Your form has been saved',
 			});
 		} catch (error) {
 			toast({
@@ -38,7 +38,7 @@ export const SaveButton = ({ formId }: { formId: number }) => {
 			className="gap-2"
 		>
 			<HiSaveAs className="w-4 h-4" />
-			Save 
+			Save
 			{loading && <FaSpinner className="animate-spin" />}
 		</Button>
 	);

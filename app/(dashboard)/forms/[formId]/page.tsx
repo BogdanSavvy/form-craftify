@@ -8,6 +8,7 @@ import { LinkShare } from '@/components/link-share';
 import { StatsCard } from '@/components/stats-cards';
 import { VisitButton } from '@/components/visit-button';
 import { SubmissionsTable } from '@/components/submission-table';
+import { DeleFormButton } from '@/components/delete-form-button';
 
 export default async function FormDetailsPage({
 	params,
@@ -35,7 +36,10 @@ export default async function FormDetailsPage({
 			<div className="border-t border-b border-muted py-10">
 				<div className="flex justify-between container">
 					<h1 className=" text-4xl font-bold truncate">{form.name}</h1>
-					<VisitButton shareUrl={form.shareURL} />
+					<div className="flex gap-2 items-center justify-center">
+						<VisitButton shareUrl={form.shareURL} />
+						<DeleFormButton formId={form.id} />
+					</div>
 				</div>
 			</div>
 			<div className="border-b border-muted py-4">
@@ -83,5 +87,3 @@ export default async function FormDetailsPage({
 		</>
 	);
 }
-
-

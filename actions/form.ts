@@ -188,3 +188,24 @@ export async function GetFormWithSubmissons(formId: number) {
 		},
 	});
 }
+
+export async function DeleteFormById(formId: number) {
+	const user = await currentUser();
+
+	if (!user) {
+		throw new Error('Unauthorized');
+	}
+
+	await prisma.formSubmissions.deleteMany({
+		where: {
+			formId,
+		},
+	});
+
+	return await prisma.form.deleteMany({
+		where: {
+			userId: user.id,
+			id: formId,
+		},
+	});
+}

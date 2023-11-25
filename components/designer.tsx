@@ -115,7 +115,7 @@ export const Designer = () => {
 						setSelectedElement(null);
 					}
 				}}
-				className="w-full p-4"
+				className="w-full p-1 sm:p-4"
 			>
 				<div
 					ref={droppable.setNodeRef}
@@ -135,7 +135,7 @@ export const Designer = () => {
 						</div>
 					)}
 					{elements.length > 0 && (
-						<div className="w-full flex flex-col gap-2 p-4">
+						<div className="w-full flex flex-col gap-2 p-2 sm:p-4">
 							{elements.map(element => (
 								<DesignerElementWrapper key={element.id} element={element} />
 							))}

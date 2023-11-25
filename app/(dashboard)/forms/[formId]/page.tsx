@@ -33,8 +33,8 @@ export default async function FormDetailsPage({
 
 	return (
 		<>
-			<div className="border-t border-b border-muted py-10">
-				<div className="flex justify-between container">
+			<div className="border-t border-b border-muted py-6 sm:py-10">
+				<div className="flex container flex-col items-center gap-2 sm:justify-between sm:flex-row">
 					<h1 className=" text-4xl font-bold truncate">{form.name}</h1>
 					<div className="flex gap-2 items-center justify-center">
 						<VisitButton shareUrl={form.shareURL} />
@@ -81,7 +81,7 @@ export default async function FormDetailsPage({
 					className="shadow-md shadow-red-600"
 				/>
 			</div>
-			<div className="container py-10">
+			<div className="container py-6 sm:py-10">
 				<SubmissionsTable formId={form.id} />
 			</div>
 		</>

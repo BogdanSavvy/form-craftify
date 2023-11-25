@@ -157,9 +157,10 @@ function PropertiesComponent({
 											event.currentTarget.blur();
 										}
 									}}
+									className="truncate"
 								/>
 							</FormControl>
-							<FormDescription>
+							<FormDescription className="text-xs sm:text-sm">
 								The label of the field <br />
 								it will be displayed above the field.
 							</FormDescription>
@@ -181,9 +182,12 @@ function PropertiesComponent({
 											event.currentTarget.blur();
 										}
 									}}
+									className="truncate"
 								/>
 							</FormControl>
-							<FormDescription>The placeholder of the field.</FormDescription>
+							<FormDescription className="text-xs sm:text-sm">
+								The placeholder of the field.
+							</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -202,9 +206,10 @@ function PropertiesComponent({
 											event.currentTarget.blur();
 										}
 									}}
+									className="truncate"
 								/>
 							</FormControl>
-							<FormDescription>
+							<FormDescription className="text-xs sm:text-sm">
 								The description of the field <br />
 								it will be displayed below the field.
 							</FormDescription>
@@ -216,10 +221,10 @@ function PropertiesComponent({
 					control={form.control}
 					name="required"
 					render={({ field }) => (
-						<FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
+						<FormItem className="flex flex-col items-center justify-between rounded-lg border p-3 shadow-sm sm:flex-row">
 							<div className="space-y-0.5">
 								<FormLabel>Required</FormLabel>
-								<FormDescription>
+								<FormDescription className="text-xs sm:text-sm">
 									The description of the field <br />
 									it will be displayed below the field.
 								</FormDescription>

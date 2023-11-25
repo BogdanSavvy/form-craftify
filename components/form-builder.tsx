@@ -122,7 +122,7 @@ export const FormBuilder = ({ form }: { form: Form }) => {
 	return (
 		<DndContext sensors={sensors}>
 			<main className="w-full flex flex-col">
-				<nav className="flex items-center justify-between gap-3 border-b-2 p-4">
+				<nav className="flex flex-col items-center justify-between gap-3 border-b-2 p-4 sm:flex-row">
 					<h2 className="truncate font-medium">
 						<span className="text-muted-foreground">Form: </span>
 						{form.name}

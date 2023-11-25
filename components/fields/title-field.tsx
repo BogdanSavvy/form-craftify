@@ -129,6 +129,7 @@ function PropertiesComponent({
 											event.currentTarget.blur();
 										}
 									}}
+									className="truncate"
 								/>
 							</FormControl>
 							<FormMessage />

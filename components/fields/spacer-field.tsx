@@ -22,6 +22,7 @@ import {
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
+import { Input } from '../ui/input';
 
 const type: ElementsType = 'SpacerField';
 
@@ -122,7 +123,7 @@ function PropertiesComponent({
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Height (px): {form.watch('height')}</FormLabel>
-							<FormControl className="pt-2">
+							<FormControl className="pt-2 hidden sm:flex">
 								<Slider
 									defaultValue={[field.value]}
 									min={5}
@@ -131,6 +132,16 @@ function PropertiesComponent({
 									onValueChange={value => {
 										field.onChange(value[0]);
 									}}
+								/>
+							</FormControl>
+							<FormControl className="pt-2 sm:hidden">
+								<Input
+									type="number"
+									value={field.value}
+									onChange={event => {
+										field.onChange(Number(event.target.value));
+									}}
+									className="py-2"
 								/>
 							</FormControl>
 							<FormMessage />
